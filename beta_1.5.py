@@ -13,9 +13,9 @@ else:
     f = open("user_data.txt", 'wb')
     data = {
         1 : 100000000,
-        2 : 1,
-        3 : 1,
-        4 : 1,
+        2 : 7,
+        3 : 7,
+        4 : 5,
         5 : [],
     }
     pickle.dump(data, f)
@@ -113,7 +113,7 @@ shield_info = {
 
 monster_info = {
     1 : Monster(1, "slime", False, 30, 10, "몬스터를 잡았다! 리워드로 30코인을 받았다!"),
-    2 : Monster(2, "stone", False, 50, 20, "몬스터를 잡았다! 리워드로 50코인을 받았다!"),
+    2 : Monster(2, "stone", False, 50, 20, "돌멩이뇌를 잡았다! 벌로 사형을 받았다!"),
     3 : Monster(3, "stone", False, 100, 50, "몬스터를 잡았다! 리워드로 100코인을 받았다!"),
     4 : Monster(4, "slime", False, 200, 100, "몬스터를 잡았다! 리워드로 200코인을 받았다!"),
     5 : Monster(5, "slime and stone", False, 350, 150, "몬스터를 잡았다! 리워드로 350코인을 받았다!"),
@@ -155,6 +155,8 @@ while True:
         q = input(f"무엇을 하시겠습니까? ({yellow}검 강화{reset}, {yellow}방패 강화{reset}, {yellow}명령어 도움말{reset}({red}이거 해야지 게임 진행 됩니다{reset}){reset}, {blue}개발자 정보{reset}, {Fore.RED}게임 종료(강제종료 하면 게임이 저장되지 않습니다.{reset})) : ")
     except:
         break
+    if q == "이 메시지는 씹힐 예정":
+        print("안씹혔찌롱 ㅋ")
     if q == "검 강화":
         print("---------------------------------------------")
         while True:
@@ -217,24 +219,42 @@ while True:
                 break
     if q.startswith("마왕성 가기 "): #(-----------)이렇게 선좀 쳐놓기
         while True:
+            print(f"---------------------------------------------")
+            try:
+                int(q[7:])
+            except ValueError:
+                print(f"올바른 {red}층{reset}이 아닙니다.")
+                break
+
             level = int(q[7:])
             if level <= 0:
-                print("올바른 층이 아닙니다.")
+                print(f"""---------------------------------------------
+올바른 {red}층{reset}이 아닙니다.
+---------------------------------------------""")
                 break
             if level > monster_level:
-                print(f"현재 {red}클리어{reset}한 {red}레벨{reset}이 아닙니다.")
+                print(f"""---------------------------------------------
+현재 {red}클리어{reset}한 {red}레벨{reset}이 아닙니다.
+---------------------------------------------""")
                 break
             if monster_level == 1:
-                print(f"우와 여기가 어디지? {yellow}몬스터 타워{reset} 인것 같아...들어가보자!")
-            monster_yes = input(f"""승리 가능한 공격력 : {red}{monster_info[monster_level].power}{reset} 들어가시겠습니까? (예, 아니요) : """)
+                print(f"""---------------------------------------------
+우와 여기가 어디지? {yellow}몬스터 타워{reset} 인것 같아...들어가보자!
+---------------------------------------------""")
+
+            monster_yes = input(f"""---------------------------------------------
+승리 가능한 공격력 : {red}{monster_info[level].power}{reset} 들어가시겠습니까? (예, 아니요) : """)
             if monster_yes == "예":
-                if monster_info[monster_level].power > power:
-                    print("내가 이길수 있는 상대가 아니다...공격력을 더 키워서 오자.")
+                if monster_info[level].power > power:
+                    print(f"""---------------------------------------------
+내가 이길수 있는 상대가 아니다...{red}공격력{reset}(현재 공격력 : {blue}{sword_info[sword_level].power + shield_info[shield_level].power}{reset})을 더 키워서 오자.
+---------------------------------------------""")
                     break
                 else:
-                    print(f"{level}단계 {monster_info[monster_level].message}")
-                    monster_level += 1
-                    coin = coin + monster_info[monster_level].reward
+                    print(f"{level}단계 {monster_info[level].message}")
+                    if monster_level == level:
+                        monster_level += 1
+                    coin = coin + monster_info[level].reward
                     break
             if monster_yes == "아니요":
                 break
