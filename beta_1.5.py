@@ -135,16 +135,27 @@ monster_info = {
 #        self.name = name
  #       self.percentage = percentage
   #      self.power = power
-enchant_book_info = {
-    1 : Enchant(1, "날카로움1", 0.8, 100),
-    2 : Enchant(2, "날카로움2", 0.75, 300),
-    3 : Enchant(3, "날카로움3", 0.5, 800),
-    4 : Enchant(4, "날카로움4", 0.4, 1500),
-    5 : Enchant(1, "방어1", 0.8, 100),
-    6 : Enchant(2, "방어2", 0.75, 300),
-    7 : Enchant(3, "방어3", 0.5, 800),
-    8 : Enchant(4, "방어4", 0.4, 1500),
-}
+#enchant_book_info = {
+#    1 : Enchant(1, "날카로움1", 0.8, 100),
+#    2 : Enchant(2, "날카로움2", 0.75, 300),
+#    3 : Enchant(3, "날카로움3", 0.5, 800),
+#    4 : Enchant(4, "날카로움4", 0.4, 1500),
+#    5 : Enchant(1, "방어1", 0.8, 100),
+#    6 : Enchant(2, "방어2", 0.75, 300),
+#    7 : Enchant(3, "방어3", 0.5, 800),
+#    8 : Enchant(4, "방어4", 0.4, 1500),
+
+enchant_book_info = [
+    Enchant(1, "날카로움1", 0.8, 100),
+    Enchant(2, "날카로움2", 0.75, 300),
+    Enchant(3, "날카로움3", 0.5, 800),
+    Enchant(4, "날카로움4", 0.4, 1500),
+    Enchant(1, "방어1", 0.8, 100),
+    Enchant(2, "방어2", 0.75, 300),
+    Enchant(3, "방어3", 0.5, 800),
+    Enchant(4, "방어4", 0.4, 1500),
+]
+
 
 power = shield_info[shield_level].power + sword_info[sword_level].power
 
@@ -271,10 +282,12 @@ while True:
                 sword_enchant_q = input(f"{blue}인첸트북{reset}을 뽑으시겠습니까? {red}(3000원){reset} (예, 아니오) : ")
                 if sword_enchant_q == "예":
                     coin -= 3000
-                    enchant_book_random = random.choice(enchant_book_info).name
-                    print(f"{yellow}{enchant_book_random}{reset}(을)를 뽑았습니다!")
+                    enchant_book_random = random.choice(enchant_book_info)
+                    print(f"{yellow}{enchant_book_random.name}{reset}(을)를 뽑았습니다!")
 
                     enchant_book.append(enchant_book_random)
+                if sword_enchant_q == "아니오":
+                    break
     
     if q == "내 인첸트북":
         print(', '.join(enchant_book))
